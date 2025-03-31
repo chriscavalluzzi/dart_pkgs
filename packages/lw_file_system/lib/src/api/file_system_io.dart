@@ -42,7 +42,8 @@ class IODirectoryFileSystem extends DirectoryFileSystem {
           var newFile = File(newEntityPath);
           final content = await file.readAsBytes();
           await newFile.parent.create(recursive: true);
-          await newFile.create(recursive: true);
+          print(">>>>>>> 1")
+          await newFile.create(recursive: false);
           await newFile.writeAsBytes(content);
           await file.delete();
         } else if (file is Directory) {
