@@ -32,8 +32,9 @@ class IODirectoryFileSystem extends DirectoryFileSystem {
     if (await oldDirectory.exists()) {
       var files = await oldDirectory.list().toList();
       for (final file in files) {
+        if (newPath.endsWith('/'))
+          newPath = newPath.substring(0, newPath.length - 1);
         final newEntityPath = '$newPath/${file.path.substring(oldPath.length)}';
-        print('>>>>>>>>>>>>>>>>>> file is Directory: ${file is Directory}, newEntityPath: $newEntityPath');
         if (file is File) {
           var newFile = File(newEntityPath);
           final content = await file.readAsBytes();
