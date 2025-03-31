@@ -29,12 +29,15 @@ class IODirectoryFileSystem extends DirectoryFileSystem {
       return false;
     }
     var oldDirectory = Directory(oldPath);
+    if (newPath.endsWith('/'))
+      newPath = newPath.substring(0, newPath.length - 1);
     if (await oldDirectory.exists()) {
       var files = await oldDirectory.list().toList();
       for (final file in files) {
-        if (newPath.endsWith('/'))
-          newPath = newPath.substring(0, newPath.length - 1);
-        final newEntityPath = '$newPath/${file.path.substring(oldPath.length)}';
+        String relativeFilePath = file.path.substring(oldPath.length);
+        if (relativeFilePath.startsWith('/'))
+          relativeFilePath = relativeFilePath.substring(1);
+        final newEntityPath = '$newPath/$relativeFilePath';
         if (file is File) {
           var newFile = File(newEntityPath);
           final content = await file.readAsBytes();
