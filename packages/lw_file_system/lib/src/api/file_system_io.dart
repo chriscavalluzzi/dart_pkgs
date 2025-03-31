@@ -33,6 +33,7 @@ class IODirectoryFileSystem extends DirectoryFileSystem {
       var files = await oldDirectory.list().toList();
       for (final file in files) {
         final newEntityPath = '$newPath/${file.path.substring(oldPath.length)}';
+        print('>>>>>>>>>>>>>>>>>> file is Directory: ${file is Directory}, newEntityPath: $newEntityPath');
         if (file is File) {
           var newFile = File(newEntityPath);
           final content = await file.readAsBytes();
